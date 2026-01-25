@@ -1,0 +1,408 @@
+/* Register Page Specific Styles */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+        font-family: 'Prompt', sans-serif;
+
+}
+
+:root {
+    --primary-blue: #1E40AF;
+    --light-azure: #EFF6FF;
+    --neutral-gray: #64748B;
+    --success-green: #10B981;
+    --warning-orange: #F59E0B;
+    --white: #FFFFFF;
+    --error-red: #EF4444;
+    --dark-blue: #1E3A8A;
+    --border-gray: #E2E8F0;
+}
+
+/* Back Link */
+.back-link {
+    margin-bottom: 1.5rem;
+}
+
+.back-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+.back-link a:hover {
+    background: rgba(30, 64, 175, 0.1);
+    transform: translateX(-4px);
+}
+
+.back-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+.register-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.register-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-gray);
+}
+
+/* Progress Steps */
+.progress-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    padding: 0 1rem;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.step-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--border-gray);
+    color: var(--neutral-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+    transition: all 0.3s ease;
+    border: 3px solid var(--border-gray);
+}
+
+.step.active .step-circle {
+    background: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+}
+
+.step.completed .step-circle {
+    background: var(--success-green);
+    color: var(--white);
+    border-color: var(--success-green);
+}
+
+.step-label {
+    font-size: 0.75rem;
+    color: var(--neutral-gray);
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.step.active .step-label {
+    color: var(--primary-blue);
+}
+
+.step.completed .step-label {
+    color: var(--success-green);
+}
+
+.step-divider {
+    width: 80px;
+    height: 3px;
+    background: var(--border-gray);
+    margin: 0 0.5rem;
+    margin-bottom: 1.75rem;
+    transition: all 0.3s ease;
+}
+
+.step.completed + .step-divider {
+    background: var(--success-green);
+}
+
+/* Form Steps */
+.form-step {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-title {
+    font-size: 1.25rem;
+    color: var(--primary-blue);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Form Row */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row .form-group {
+    margin-bottom: 0;
+}
+
+/* Required Label */
+.form-label.required::after {
+    content: '*';
+    color: var(--error-red);
+    margin-left: 0.25rem;
+}
+
+/* Textarea */
+textarea.form-input {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+/* Constituency Display */
+.constituency-display {
+    padding: 1rem;
+    background: var(--light-azure);
+    border: 2px solid var(--primary-blue);
+    border-radius: 12px;
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+}
+
+.badge-constituency {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: var(--primary-blue);
+    color: var(--white);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    gap: 0.5rem;
+}
+
+.badge-constituency::before {
+    content: '📍';
+}
+
+.text-muted {
+    color: var(--neutral-gray);
+    font-size: 0.875rem;
+    font-style: italic;
+}
+
+/* Password Strength */
+.password-strength {
+    margin-top: 0.75rem;
+}
+
+.strength-bar {
+    height: 6px;
+    background: var(--border-gray);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.strength-fill {
+    height: 100%;
+    background: var(--success-green);
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.strength-bar.weak .strength-fill {
+    background: #EF4444;
+}
+
+.strength-bar.medium .strength-fill {
+    background: #F59E0B;
+}
+
+.strength-bar.good .strength-fill {
+    background: #10B981;
+}
+
+.strength-bar.strong .strength-fill {
+    background: #059669;
+}
+
+.strength-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Terms Section */
+.terms-section {
+    background: var(--light-azure);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+}
+
+.terms-section .checkbox-label {
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.link-primary {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-primary:hover {
+    text-decoration: underline;
+}
+
+/* Form Navigation */
+.form-navigation {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.form-navigation .btn-primary,
+.form-navigation .btn-secondary {
+    flex: 1;
+}
+
+.form-navigation .btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.form-navigation svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Login Section */
+.login-section {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login-section p {
+    margin-bottom: 1rem;
+    color: var(--neutral-gray);
+    font-size: 0.875rem;
+}
+
+.btn-link {
+    display: inline-block;
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+}
+
+.btn-link:hover {
+    color: var(--dark-blue);
+    text-decoration: underline;
+}
+
+/* Footer */
+.register-footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--neutral-gray);
+}
+
+.register-footer p {
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .register-container {
+        max-width: 100%;
+        padding: 1rem;
+    }
+
+    .register-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .form-row .form-group {
+        margin-bottom: 0;
+    }
+
+    .progress-steps {
+        padding: 0;
+    }
+
+    .step-label {
+        font-size: 0.65rem;
+    }
+
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .step-divider {
+        width: 40px;
+        margin: 0 0.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-navigation {
+        flex-direction: column-reverse;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .step-label {
+        display: none;
+    }
+
+    .step-divider {
+        margin-bottom: 0;
+    }
+}
