@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Party Management - Admin Panel</title>
+    <link rel="stylesheet" href="party-management-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h2>แผงควบคุม</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <p class="nav-label">เมนูหลัก</p>
+                    <ul>
+                        <li class="active">
+                            <a href="party-management.html">
+                                <i class="fas fa-users"></i>
+                                <span>จัดการพรรคการเมือง</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="candidate-management.html">
+                                <i class="fas fa-user-tie"></i>
+                                <span>จัดการผู้สมัคร</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#voter-management">
+                                <i class="fas fa-person-booth"></i>
+                                <span>จัดการผู้มีสิทธิ์เลือกตั้ง</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#system-logs">
+                                <i class="fas fa-file-alt"></i>
+                                <span>บันทึกระบบ</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <p class="nav-label">บัญชีผู้ใช้</p>
+                    <ul>
+                        <li>
+                            <a href="#settings">
+                                <i class="fas fa-cog"></i>
+                                <span>ตั้งค่า</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=สมชาย+ใจดี&background=4a5568&color=fff" alt="User Avatar" class="user-avatar">
+                    <div class="user-details">
+                        <p class="user-name">สมชาย ใจดี</p>
+                        <p class="user-login">เข้าสู่ระบบล่าสุด: 10:45 น.</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div class="breadcrumb">
+                    <a href="#dashboard">หน้าหลัก</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>จัดการพรรคการเมือง</span>
+                </div>
+
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="ค้นหาพรรค..." id="searchInput">
+                    </div>
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <button class="btn-primary" id="addPartyBtn">
+                        <i class="fas fa-plus"></i>
+                        เพิ่มพรรคใหม่
+                    </button>
+                </div>
+            </header>
+
+            <!-- Page Title -->
+            <div class="page-title">
+                <h1>จัดการพรรคการเมือง</h1>
+                <p class="subtitle">จัดการและติดตามพรรคการเมืองที่ลงทะเบียนสำหรับการเลือกตั้ง พ.ศ. 2569</p>
+            </div>
+
+            <!-- Parties Table -->
+            <div class="table-container">
+                <table class="parties-table">
+                    <thead>
+                        <tr>
+                            <th>ชื่อพรรค</th>
+                            <th>หัวหน้าพรรค</th>
+                            <th>วันที่ลงทะเบียน</th>
+                            <th>การจัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="partiesTableBody">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <div class="pagination-info">
+                    <span>แสดง <span id="showingStart">1</span> ถึง <span id="showingEnd">5</span> จากทั้งหมด <span id="totalEntries">12</span> รายการ</span>
+                </div>
+                <div class="pagination-controls">
+                    <button class="page-btn" id="prevBtn">ก่อนหน้า</button>
+                    <button class="page-btn active" data-page="1">1</button>
+                    <button class="page-btn" data-page="2">2</button>
+                    <button class="page-btn" data-page="3">3</button>
+                    <button class="page-btn" id="nextBtn">ถัดไป</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Party Modal -->
+    <div class="modal" id="partyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">เพิ่มพรรคใหม่</h2>
+                <button class="close-btn" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="partyForm">
+                <div class="form-group">
+                    <label for="partyName">ชื่อพรรค</label>
+                    <input type="text" id="partyName" required>
+                </div>
+                <div class="form-group">
+                    <label for="partyLeader">หัวหน้าพรรค</label>
+                    <input type="text" id="partyLeader" required>
+                </div>
+                <div class="form-group">
+                    <label for="registrationDate">วันที่ลงทะเบียน</label>
+                    <input type="date" id="registrationDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="partyLogo">สีโลโก้พรรค</label>
+                    <input type="color" id="partyLogo" value="#1e90ff">
+                </div>
+                <div class="form-group">
+                    <label for="logoIcon">ไอคอนโลโก้ (Font Awesome class)</label>
+                    <input type="text" id="logoIcon" placeholder="เช่น fa-flag" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn">ยกเลิก</button>
+                    <button type="submit" class="btn-primary">บันทึก</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="party-management.js"></script>
+</body>
+</html>

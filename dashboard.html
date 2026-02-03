@@ -3,15 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - ระบบเลือกตั้งออนไลน์</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <title>ผลการเลือกตั้ง - Election Monitor 2024</title>
     <link rel="stylesheet" href="dashboard-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div id="app">
-        <dashboard-page></dashboard-page>
-    </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>Election Monitor 2024</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#" class="nav-link active">ทั่วประเทศ</a>
+                <a href="#" class="nav-link">ตามภูมิภาค</a>
+                <a href="#" class="nav-link">ตามจังหวัด</a>
+                <a href="#" class="nav-link">การวิเคราะห์</a>
+            </div>
+            <div class="nav-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ค้นหาเขต...">
+                </div>
+                <button class="btn-live">
+                    <i class="fas fa-circle-dot"></i>
+                    อัปเดตสด
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="#dashboard">Dashboard</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>การเลือกตั้ง ส.ส. พ.ศ. 2567</span>
+        </div>
+
+        <!-- Header -->
+        <div class="page-header">
+            <div class="header-left">
+                <h1>ผลการเลือกตั้งสมาชิกสภาผู้แทนราษฎร</h1>
+                <div class="update-info">
+                    <i class="fas fa-clock"></i>
+                    <span>อัปเดตล่าสุด: <span id="lastUpdate">2 นาทีที่แล้ว</span> | <span id="reportingPercent">85.4%</span> ของหน่วยเลือกตั้งรายงานแล้ว</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-report">
+                    <i class="fas fa-download"></i>
+                    รายงานฉบับเต็ม
+                </button>
+                <button class="btn-share">
+                    <i class="fas fa-share-nodes"></i>
+                    แชร์
+                </button>
+            </div>
+        </div>
+
+        <!-- District Selector -->
+        <div class="district-filter">
+            <label>
+                <i class="fas fa-map-marker-alt"></i>
+                เลือกเขตเลือกตั้ง
+            </label>
+            <select id="districtSelect">
+                <option value="all">ทุกเขตทั่วประเทศ</option>
+            </select>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">ผู้มีสิทธิ์เลือกตั้งทั้งหมด</div>
+                <div class="stat-value" id="totalVoters">52.4M</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    +3.2% จาก 2562
+                </div>
+            </div>
+
+            <div class="stat-card primary">
+                <div class="stat-label">หน่วยรายงานแล้ว</div>
+                <div class="stat-value-large" id="precincts">8,452 / 10,200</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="precinctsProgress" style="width: 82.8%"></div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">ผู้ใช้สิทธิ์แล้ว</div>
+                <div class="stat-value" id="turnout">42.1M</div>
+                <div class="stat-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="turnoutPercent">80.3%</span> ของผู้มีสิทธิ์
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">ที่นั่ง ส.ส.</div>
+                <div class="stat-value" id="seats">380 / 500</div>
+                <div class="stat-subtext">120 ที่นั่งรอผล</div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Leading Parties -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>พรรคนำ</h3>
+                    </div>
+                    <div class="card-body" id="leadingParties">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Vote Distribution -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie"></i>
+                        <h3>การกระจายคะแนน</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="donut-chart">
+                            <svg viewBox="0 0 200 200" id="donutChart">
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#f1f5f9" stroke-width="40"></circle>
+                            </svg>
+                            <div class="chart-center">
+                                <div class="chart-total" id="totalVotesChart">42.1M</div>
+                                <div class="chart-label">คะแนนทั้งหมด</div>
+                            </div>
+                        </div>
+                        <div class="chart-legend" id="chartLegend">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Regional Map -->
+                <div class="card map-card">
+                    <div class="card-header">
+                        <div>
+                            <i class="fas fa-globe"></i>
+                            <h3>แผนที่ผลการเลือกตั้ง</h3>
+                        </div>
+                        <div class="map-controls">
+                            <button class="map-btn" title="ซูมเข้า"><i class="fas fa-search-plus"></i></button>
+                            <button class="map-btn" title="กรอง"><i class="fas fa-filter"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map"></i>
+                            <p>แผนที่แสดงผลการเลือกตั้งแต่ละเขต</p>
+                        </div>
+                        <div class="map-legend">
+                            <div class="legend-title">ความเข้มของการนำ</div>
+                            <div class="legend-items">
+                                <div class="legend-item">
+                                    <span class="legend-color red"></span>
+                                    <span>R+10%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color even"></span>
+                                    <span>สูสี</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color blue"></span>
+                                    <span>B+10%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- District Results Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        <h3>ผลการเลือกตั้งรายเขต</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="results-table">
+                                <thead>
+                                    <tr>
+                                        <th>เขตหลัก</th>
+                                        <th>ผู้ชนะ</th>
+                                        <th>ห่าง</th>
+                                        <th>นับ</th>
+                                        <th>ที่นั่ง</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="districtResults">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Update Banner -->
+        <div class="live-banner">
+            <div class="banner-icon">
+                <i class="fas fa-rss"></i>
+            </div>
+            <div class="banner-content">
+                <h4>อัปเดตสำคัญ</h4>
+                <p id="liveUpdate">พรรคก้าวหน้านำในกรุงเทพมหานคร เขต 1 ด้วยคะแนน 12,400 คะแนน</p>
+            </div>
+            <button class="btn-view-feed">ดูฟีดสด</button>
+        </div>
+
+        <!-- Footer -->
+        <div class="page-footer">
+            <p>ผลการเลือกตั้งอย่างเป็นทางการได้รับการยืนยันโดยคณะกรรมการการเลือกตั้ง ข้อมูลอัปเดตทุก 60 วินาที</p>
+            <div class="footer-links">
+                <a href="#">การเข้าถึง</a>
+                <a href="#">นโยบายความเป็นส่วนตัว</a>
+                <a href="#">วิธีการ</a>
+            </div>
+        </div>
+    </main>
+
     <script src="dashboard.js"></script>
 </body>
 </html>
