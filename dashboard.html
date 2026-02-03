@@ -19,17 +19,49 @@
                 <a href="#" class="nav-link active">ทั่วประเทศ</a>
                 <a href="#" class="nav-link">ตามภูมิภาค</a>
                 <a href="#" class="nav-link">ตามจังหวัด</a>
-                <a href="#" class="nav-link">การวิเคราะห์</a>
+                <a href="voting.html" class="nav-link">ลงคะแนนเลือกตั้ง</a>
             </div>
             <div class="nav-actions">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="ค้นหาเขต...">
+                <!-- User Profile (shown when logged in) -->
+                <div class="user-section logged-in" id="userSection" style="display: none;">
+                    <div class="user-profile" id="userProfile">
+                        <img src="https://ui-avatars.com/api/?name=ผู้ใช้งาน&background=3b82f6&color=fff" alt="User">
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-user-info">
+                                    <strong>ผู้ใช้งาน</strong>
+                                    <span>user@example.com</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="#profile" class="dropdown-item">
+                                <i class="fas fa-user"></i>
+                                โปรไฟล์
+                            </a>
+                            <a href="#settings" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                ตั้งค่า
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item logout" onclick="logout(); return false;">
+                                <i class="fas fa-sign-out-alt"></i>
+                                ออกจากระบบ
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <button class="btn-live">
-                    <i class="fas fa-circle-dot"></i>
-                    อัปเดตสด
-                </button>
+                
+                <!-- Auth Buttons (shown when not logged in) -->
+                <div class="auth-buttons" id="authButtons">
+                    <a href="main.html" class="btn-login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        เข้าสู่ระบบ
+                    </a>
+                    <a href="register.html" class="btn-register">
+                        <i class="fas fa-user-plus"></i>
+                        ลงทะเบียน
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -66,13 +98,26 @@
 
         <!-- District Selector -->
         <div class="district-filter">
-            <label>
-                <i class="fas fa-map-marker-alt"></i>
-                เลือกเขตเลือกตั้ง
-            </label>
-            <select id="districtSelect">
-                <option value="all">ทุกเขตทั่วประเทศ</option>
-            </select>
+            <div style="display: flex; gap: 1rem; align-items: flex-end;">
+                <div style="flex: 1;">
+                    <label>
+                        <i class="fas fa-map"></i>
+                        เลือกจังหวัด
+                    </label>
+                    <select id="provinceSelect">
+                        <option value="all">ทุกจังหวัด</option>
+                    </select>
+                </div>
+                <div style="flex: 1;">
+                    <label>
+                        <i class="fas fa-map-marker-alt"></i>
+                        เลือกเขต
+                    </label>
+                    <select id="districtSelect">
+                        <option value="all">ทุกเขต</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <!-- Stats Cards -->

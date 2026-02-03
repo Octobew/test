@@ -79,6 +79,9 @@ let votingClosed = false; // Track if voting is closed
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    // Set user as logged in when on voting page
+    sessionStorage.setItem('isLoggedIn', 'true');
+    
     setupEventListeners();
     startTimer();
     renderCandidates(); // Auto-render candidates for user's district
@@ -112,6 +115,25 @@ function setupEventListeners() {
 
     document.getElementById('successModal').addEventListener('click', (e) => {
         if (e.target.id === 'successModal') closeSuccessModal();
+    });
+    
+    // User profile dropdown
+    const userProfile = document.getElementById('userProfile');
+    const userDropdown = document.getElementById('userDropdown');
+    
+    userProfile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdown.classList.toggle('show');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', () => {
+        userDropdown.classList.remove('show');
+    });
+    
+    // Prevent dropdown from closing when clicking inside it
+    userDropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
     });
 }
 
@@ -270,4 +292,10 @@ function startTimer() {
         document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
         document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
     }, 1000);
+}
+
+// Logout function
+function logout() {
+    sessionStorage.removeItem('isLoggedIn');
+    window.location.href = 'main.html';
 }

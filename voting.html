@@ -1,213 +1,256 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ระบบลงคะแนนเลือกตั้ง - SecureVote</title>
-    <link rel="stylesheet" href="voting-style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="voting-style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <i class="fas fa-shield-halved"></i>
-                <span class="brand-name">SecureVote</span>
-            </div>
-            <div class="nav-menu">
-                <a href="#elections" class="nav-link active">การเลือกตั้ง</a>
-                <a href="#results" class="nav-link">ผลการเลือกตั้ง</a>
-                <a href="#help" class="nav-link">ช่วยเหลือ</a>
-            </div>
-            <div class="nav-actions">
-                <div class="encrypted-badge">
-                    <i class="fas fa-lock"></i>
-                    <span>เซสชันเข้ารหัส</span>
-                </div>
-                <div class="user-profile">
-                    <img src="https://ui-avatars.com/api/?name=ผู้ใช้งาน&background=3b82f6&color=fff" alt="User">
-                </div>
-            </div>
+      <div class="nav-container">
+        <div class="nav-brand">
+          <i class="fas fa-shield-halved"></i>
+          <span class="brand-name">SecureVote</span>
         </div>
+        <div class="nav-menu">
+          <a href="#elections" class="nav-link active">การเลือกตั้ง</a>
+          <a href="dashboard.html" class="nav-link">ผลการเลือกตั้ง</a>
+        </div>
+        <div class="nav-actions">
+          <div class="encrypted-badge">
+            <i class="fas fa-lock"></i>
+            <span>เซสชันเข้ารหัส</span>
+          </div>
+          <div class="user-profile" id="userProfile">
+            <img
+              src="https://ui-avatars.com/api/?name=ผู้ใช้งาน&background=3b82f6&color=fff"
+              alt="User"
+            />
+            <div class="user-dropdown" id="userDropdown">
+              <div class="dropdown-header">
+                <div class="dropdown-user-info">
+                  <strong>ผู้ใช้งาน</strong>
+                  <span>user@example.com</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#profile" class="dropdown-item">
+                <i class="fas fa-user"></i>
+                โปรไฟล์
+              </a>
+              <a href="#settings" class="dropdown-item">
+                <i class="fas fa-cog"></i>
+                ตั้งค่า
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item logout" onclick="logout(); return false;">
+                <i class="fas fa-sign-out-alt"></i>
+                ออกจากระบบ
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
 
     <!-- Main Content -->
     <main class="main-container">
-        <div class="content-wrapper">
-            <!-- Ballot Header -->
-            <div class="ballot-header">
-                <div class="ballot-title">
-                    <div class="official-badge">
-                        <i class="fas fa-ballot-check"></i>
-                        <span>บัตรเลือกตั้งอย่างเป็นทางการ</span>
-                    </div>
-                    <h1>การเลือกตั้งสมาชิกสภาผู้แทนราษฎร</h1>
-                    <p class="ballot-description">เลือกผู้สมัครหนึ่งคนสำหรับการเลือกตั้ง การลงคะแนนของคุณเป็นความลับและถูกเข้ารหัส</p>
-                </div>
-                <div class="timer-box">
-                    <div class="timer-item">
-                        <div class="timer-value" id="hours">04</div>
-                        <div class="timer-label">ชั่วโมง</div>
-                    </div>
-                    <div class="timer-item">
-                        <div class="timer-value" id="minutes">22</div>
-                        <div class="timer-label">นาที</div>
-                    </div>
-                    <div class="timer-item">
-                        <div class="timer-value" id="seconds">15</div>
-                        <div class="timer-label">วินาที</div>
-                    </div>
-                </div>
+      <div class="content-wrapper">
+        <!-- Ballot Header -->
+        <div class="ballot-header">
+          <div class="ballot-title">
+            <div class="official-badge">
+              <i class="fas fa-ballot-check"></i>
+              <span>บัตรเลือกตั้งอย่างเป็นทางการ</span>
             </div>
-
-            <!-- District Info (Locked) -->
-            <div class="district-info">
-                <div class="district-label">
-                    <i class="fas fa-map-marker-alt"></i>
-                    เขตเลือกตั้งของคุณ
-                </div>
-                <div class="district-value">
-                    <span id="userDistrict">กรุงเทพมหานคร เขต 1</span>
-                    <span class="verified-badge">
-                        <i class="fas fa-check-circle"></i>
-                        ยืนยันแล้ว
-                    </span>
-                </div>
-                <p class="district-note">
-                    <i class="fas fa-info-circle"></i>
-                    เขตเลือกตั้งถูกกำหนดตามที่อยู่ที่ลงทะเบียนไว้ในระบบ ไม่สามารถเปลี่ยนแปลงได้
-                </p>
-            </div>
-
-            <!-- Candidates List -->
-            <div class="candidates-section">
-                <div class="section-tabs">
-                    <div class="tab active">โปรไฟล์</div>
-                    <div class="tab">ผู้สมัคร & พรรค</div>
-                    <div class="tab">การเลือก</div>
-                </div>
-
-                <div class="candidates-list" id="candidatesList">
-                    <!-- Populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Confirmation Box -->
-            <div class="confirmation-box" id="confirmationBox" style="display: none;">
-                <div class="confirmation-content">
-                    <div class="selected-candidate">
-                        <div class="selected-photo">
-                            <img id="selectedPhoto" src="" alt="Selected Candidate">
-                            <div class="check-badge">
-                                <i class="fas fa-check"></i>
-                            </div>
-                        </div>
-                        <div class="selected-info">
-                            <h3>ยืนยันการเลือกของคุณ</h3>
-                            <p>คุณได้เลือก <strong id="selectedName"></strong> กรุณาตรวจสอบการเลือกของคุณก่อนส่ง</p>
-                        </div>
-                    </div>
-                    <div class="confirmation-actions">
-                        <button class="btn-change" id="changeBtn">เปลี่ยนการเลือก</button>
-                        <button class="btn-submit" id="submitBtn">
-                            ตรวจสอบและส่งคะแนน
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Security Features -->
-            <div class="security-features">
-                <div class="feature-item">
-                    <i class="fas fa-shield-check"></i>
-                    <span>เข้ารหัส SSL</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-id-card"></i>
-                    <span>ยืนยันตัวตน</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-fingerprint"></i>
-                    <span>ตรวจสอบไบโอเมตริกซ์</span>
-                </div>
-            </div>
-
-            <p class="security-note">
-                SecureVote ใช้การเข้ารหัสแบบ end-to-end ที่สามารถตรวจสอบได้เพื่อให้แน่ใจว่าคะแนนของคุณถูกนับอย่างถูกต้อง<br>
-                <strong>คุณสามารถเปลี่ยนแปลงการลงคะแนนได้จนกว่าจะปิดหีบเลือกตั้ง</strong> คะแนนล่าสุดของคุณจะเป็นคะแนนที่นับ
+            <h1>การเลือกตั้งสมาชิกสภาผู้แทนราษฎร</h1>
+            <p class="ballot-description">
+              เลือกผู้สมัครหนึ่งคนสำหรับการเลือกตั้ง
+              การลงคะแนนของคุณเป็นความลับและถูกเข้ารหัส
             </p>
+          </div>
+          <div class="timer-box">
+            <div class="timer-item">
+              <div class="timer-value" id="hours">04</div>
+              <div class="timer-label">ชั่วโมง</div>
+            </div>
+            <div class="timer-item">
+              <div class="timer-value" id="minutes">22</div>
+              <div class="timer-label">นาที</div>
+            </div>
+            <div class="timer-item">
+              <div class="timer-value" id="seconds">15</div>
+              <div class="timer-label">วินาที</div>
+            </div>
+          </div>
         </div>
+
+        <!-- District Info (Locked) -->
+        <div class="district-info">
+          <div class="district-label">
+            <i class="fas fa-map-marker-alt"></i>
+            เขตเลือกตั้งของคุณ
+          </div>
+          <div class="district-value">
+            <span id="userDistrict">กรุงเทพมหานคร เขต 1</span>
+            <span class="verified-badge">
+              <i class="fas fa-check-circle"></i>
+              ยืนยันแล้ว
+            </span>
+          </div>
+          <p class="district-note">
+            <i class="fas fa-info-circle"></i>
+            เขตเลือกตั้งถูกกำหนดตามที่อยู่ที่ลงทะเบียนไว้ในระบบ
+            ไม่สามารถเปลี่ยนแปลงได้
+          </p>
+        </div>
+
+        <!-- Candidates List -->
+        <div class="candidates-section">
+          <div class="section-tabs">
+            <div class="tab active">โปรไฟล์</div>
+            <div class="tab">ผู้สมัคร & พรรค</div>
+            <div class="tab">การเลือก</div>
+          </div>
+
+          <div class="candidates-list" id="candidatesList">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Confirmation Box -->
+        <div
+          class="confirmation-box"
+          id="confirmationBox"
+          style="display: none"
+        >
+          <div class="confirmation-content">
+            <div class="selected-candidate">
+              <div class="selected-photo">
+                <img id="selectedPhoto" src="" alt="Selected Candidate" />
+                <div class="check-badge">
+                  <i class="fas fa-check"></i>
+                </div>
+              </div>
+              <div class="selected-info">
+                <h3>ยืนยันการเลือกของคุณ</h3>
+                <p>
+                  คุณได้เลือก
+                  <strong id="selectedName"></strong>
+                  กรุณาตรวจสอบการเลือกของคุณก่อนส่ง
+                </p>
+              </div>
+            </div>
+            <div class="confirmation-actions">
+              <button class="btn-change" id="changeBtn">เปลี่ยนการเลือก</button>
+              <button class="btn-submit" id="submitBtn">
+                ตรวจสอบและส่งคะแนน
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p class="security-note">
+          <strong
+            >คุณสามารถเปลี่ยนแปลงการลงคะแนนได้จนกว่าจะปิดหีบเลือกตั้ง</strong
+          >
+          คะแนนล่าสุดของคุณจะเป็นคะแนนที่นับ
+        </p>
+      </div>
     </main>
 
     <!-- Confirmation Modal -->
     <div class="modal" id="submitModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>
-                    <i class="fas fa-check-circle"></i>
-                    ส่งคะแนนเลือกตั้งของคุณ
-                </h2>
-            </div>
-            <div class="modal-body">
-                <div class="final-selection">
-                    <img id="finalPhoto" src="" alt="Final Selection">
-                    <h3 id="finalName"></h3>
-                    <p id="finalParty"></p>
-                </div>
-                <div class="warning-box">
-                    <i class="fas fa-info-circle"></i>
-                    <p><strong>หมายเหตุ:</strong> คะแนนของคุณจะถูกเข้ารหัสและบันทึก แต่คุณสามารถกลับมาเปลี่ยนแปลงการเลือกได้จนกว่าจะปิดหีบเลือกตั้ง คะแนนล่าสุดของคุณจะเป็นคะแนนที่นับ</p>
-                </div>
-                <p class="confirm-text">คุณต้องการส่งคะแนนให้กับผู้สมัครนี้หรือไม่?</p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" id="cancelSubmit">ยกเลิก</button>
-                <button class="btn-primary" id="confirmSubmit">
-                    <i class="fas fa-lock"></i>
-                    ยืนยันและส่งคะแนน
-                </button>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>
+            <i class="fas fa-check-circle"></i>
+            ส่งคะแนนเลือกตั้งของคุณ
+          </h2>
         </div>
+        <div class="modal-body">
+          <div class="final-selection">
+            <img id="finalPhoto" src="" alt="Final Selection" />
+            <h3 id="finalName"></h3>
+            <p id="finalParty"></p>
+          </div>
+          <div class="warning-box">
+            <i class="fas fa-info-circle"></i>
+            <p>
+              <strong>หมายเหตุ:</strong> คะแนนของคุณจะถูกเข้ารหัสและบันทึก
+              แต่คุณสามารถกลับมาเปลี่ยนแปลงการเลือกได้จนกว่าจะปิดหีบเลือกตั้ง
+              คะแนนล่าสุดของคุณจะเป็นคะแนนที่นับ
+            </p>
+          </div>
+          <p class="confirm-text">
+            คุณต้องการส่งคะแนนให้กับผู้สมัครนี้หรือไม่?
+          </p>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-secondary" id="cancelSubmit">ยกเลิก</button>
+          <button class="btn-primary" id="confirmSubmit">
+            <i class="fas fa-lock"></i>
+            ยืนยันและส่งคะแนน
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Success Modal -->
     <div class="modal" id="successModal">
-        <div class="modal-content success">
-            <div class="success-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h2>บันทึกคะแนนสำเร็จ!</h2>
-            <p>คะแนนของคุณได้รับการบันทึกและเข้ารหัสอย่างปลอดภัยแล้ว</p>
-            <div class="info-box-success">
-                <i class="fas fa-info-circle"></i>
-                <p>คุณสามารถเปลี่ยนแปลงการเลือกได้จนกว่าจะปิดหีบเลือกตั้ง<br>
-                คะแนนล่าสุดของคุณจะเป็นคะแนนที่นับ</p>
-            </div>
-            <div class="success-actions">
-                <button class="btn-secondary" id="changeVote">เปลี่ยนการเลือก</button>
-                <button class="btn-primary" id="closeSuccess">เสร็จสิ้น</button>
-            </div>
+      <div class="modal-content success">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
         </div>
+        <h2>บันทึกคะแนนสำเร็จ!</h2>
+        <p>คะแนนของคุณได้รับการบันทึกและเข้ารหัสอย่างปลอดภัยแล้ว</p>
+        <div class="info-box-success">
+          <i class="fas fa-info-circle"></i>
+          <p>
+            คุณสามารถเปลี่ยนแปลงการเลือกได้จนกว่าจะปิดหีบเลือกตั้ง<br />
+            คะแนนล่าสุดของคุณจะเป็นคะแนนที่นับ
+          </p>
+        </div>
+        <div class="success-actions">
+          <button class="btn-secondary" id="changeVote">เปลี่ยนการเลือก</button>
+          <button class="btn-primary" id="closeSuccess">เสร็จสิ้น</button>
+        </div>
+      </div>
     </div>
 
     <!-- Voting Closed Modal -->
     <div class="modal" id="closedModal">
-        <div class="modal-content success">
-            <div class="success-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
-                <i class="fas fa-lock"></i>
-            </div>
-            <h2>ปิดหีบเลือกตั้งแล้ว</h2>
-            <p>หมดเวลาการลงคะแนนเลือกตั้ง ไม่สามารถเปลี่ยนแปลงการเลือกได้อีกต่อไป</p>
-            <div class="info-box-success" style="background-color: #fef2f2; border-color: #fecaca;">
-                <i class="fas fa-info-circle" style="color: #ef4444;"></i>
-                <p style="color: #991b1b;">คะแนนของคุณได้รับการบันทึกและนับรวมเรียบร้อยแล้ว<br>
-                ขอบคุณที่ร่วมใช้สิทธิ์เลือกตั้ง</p>
-            </div>
+      <div class="modal-content success">
+        <div
+          class="success-icon"
+          style="background: linear-gradient(135deg, #ef4444, #dc2626)"
+        >
+          <i class="fas fa-lock"></i>
         </div>
+        <h2>ปิดหีบเลือกตั้งแล้ว</h2>
+        <p>
+          หมดเวลาการลงคะแนนเลือกตั้ง ไม่สามารถเปลี่ยนแปลงการเลือกได้อีกต่อไป
+        </p>
+        <div
+          class="info-box-success"
+          style="background-color: #fef2f2; border-color: #fecaca"
+        >
+          <i class="fas fa-info-circle" style="color: #ef4444"></i>
+          <p style="color: #991b1b">
+            คะแนนของคุณได้รับการบันทึกและนับรวมเรียบร้อยแล้ว<br />
+            ขอบคุณที่ร่วมใช้สิทธิ์เลือกตั้ง
+          </p>
+        </div>
+      </div>
     </div>
 
     <script src="voting.js"></script>
-</body>
+  </body>
 </html>

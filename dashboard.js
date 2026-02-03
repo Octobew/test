@@ -59,38 +59,148 @@ districts.forEach(district => {
     }
 });
 
+let currentProvince = 'all';
 let currentDistrict = 'all';
+// Check if user is logged in from sessionStorage
+let isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    populateProvinceSelect();
     populateDistrictSelect();
     updateDashboard();
     setupEventListeners();
     startLiveUpdates();
+    updateAuthState();
 });
 
-// Populate district selector
-function populateDistrictSelect() {
-    const select = document.getElementById('districtSelect');
+// Group districts by province
+function getProvinceGroups() {
+    const provinceGroups = {};
     districts.forEach(district => {
+        const province = district.split(' เขต ')[0];
+        if (!provinceGroups[province]) {
+            provinceGroups[province] = [];
+        }
+        provinceGroups[province].push(district);
+    });
+    return provinceGroups;
+}
+
+// Populate province selector
+function populateProvinceSelect() {
+    const select = document.getElementById('provinceSelect');
+    const provinceGroups = getProvinceGroups();
+    
+    Object.keys(provinceGroups).sort().forEach(province => {
         const option = document.createElement('option');
-        option.value = district;
-        option.textContent = district;
+        option.value = province;
+        option.textContent = province;
         select.appendChild(option);
     });
 }
 
+// Populate district selector based on selected province
+function populateDistrictSelect() {
+    const select = document.getElementById('districtSelect');
+    select.innerHTML = '<option value="all">ทุกเขต</option>';
+    
+    if (currentProvince === 'all') {
+        // Show all districts
+        districts.forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            select.appendChild(option);
+        });
+    } else {
+        // Show only districts in selected province
+        const provinceDistricts = districts.filter(d => d.startsWith(currentProvince));
+        provinceDistricts.forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            const districtNumber = district.split(' เขต ')[1];
+            option.textContent = `เขต ${districtNumber}`;
+            select.appendChild(option);
+        });
+    }
+    
+    // Reset district selection
+    currentDistrict = 'all';
+    select.value = 'all';
+}
+
 // Setup event listeners
 function setupEventListeners() {
+    document.getElementById('provinceSelect').addEventListener('change', (e) => {
+        currentProvince = e.target.value;
+        populateDistrictSelect();
+        updateDashboard();
+    });
+    
     document.getElementById('districtSelect').addEventListener('change', (e) => {
         currentDistrict = e.target.value;
         updateDashboard();
     });
+    
+    // User profile dropdown (if logged in)
+    if (isLoggedIn) {
+        const userProfile = document.getElementById('userProfile');
+        const userDropdown = document.getElementById('userDropdown');
+        
+        if (userProfile && userDropdown) {
+            userProfile.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                userDropdown.classList.remove('show');
+            });
+            
+            // Prevent dropdown from closing when clicking inside it
+            userDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+    }
+}
+
+// Update auth state (show user profile or login buttons)
+function updateAuthState() {
+    const userSection = document.getElementById('userSection');
+    const authButtons = document.getElementById('authButtons');
+    
+    if (isLoggedIn) {
+        userSection.style.display = 'flex';
+        authButtons.style.display = 'none';
+    } else {
+        userSection.style.display = 'none';
+        authButtons.style.display = 'flex';
+    }
+}
+
+// Logout function
+function logout() {
+    sessionStorage.removeItem('isLoggedIn');
+    window.location.href = 'main.html';
 }
 
 // Update dashboard with current district data
 function updateDashboard() {
-    const data = electionResults[currentDistrict];
+    let data;
+    
+    if (currentDistrict !== 'all') {
+        // Specific district selected
+        data = electionResults[currentDistrict];
+    } else if (currentProvince !== 'all') {
+        // Province selected, all districts in province
+        data = aggregateProvinceData(currentProvince);
+    } else {
+        // All provinces and districts
+        data = electionResults['all'];
+    }
     
     // Update stats
     updateStats(data);
@@ -103,6 +213,39 @@ function updateDashboard() {
     
     // Update district results table
     updateDistrictTable();
+}
+
+// Aggregate data for all districts in a province
+function aggregateProvinceData(province) {
+    const provinceDistricts = districts.filter(d => d.startsWith(province));
+    
+    const aggregated = {
+        totalVoters: 0,
+        turnout: 0,
+        precincts: { reported: 0, total: 0 },
+        seats: { won: 0, total: provinceDistricts.length },
+        partyResults: parties.map(party => ({ partyId: party.id, votes: 0, seats: 0 }))
+    };
+    
+    provinceDistricts.forEach(district => {
+        const districtData = electionResults[district];
+        aggregated.totalVoters += districtData.totalVoters;
+        aggregated.turnout += districtData.turnout;
+        aggregated.precincts.reported += districtData.precincts.reported;
+        aggregated.precincts.total += districtData.precincts.total;
+        aggregated.seats.won += districtData.seats.won;
+        
+        districtData.partyResults.forEach(result => {
+            const partyResult = aggregated.partyResults.find(p => p.partyId === result.partyId);
+            partyResult.votes += result.votes;
+            partyResult.seats += result.seats;
+        });
+    });
+    
+    // Sort by votes
+    aggregated.partyResults.sort((a, b) => b.votes - a.votes);
+    
+    return aggregated;
 }
 
 // Update stats cards
@@ -211,9 +354,19 @@ function updateVoteChart(data) {
 function updateDistrictTable() {
     const tbody = document.getElementById('districtResults');
     
-    const tableData = currentDistrict === 'all' 
-        ? districts.map(d => ({ name: d, data: electionResults[d] }))
-        : [{ name: currentDistrict, data: electionResults[currentDistrict] }];
+    let tableData;
+    if (currentDistrict !== 'all') {
+        // Show specific district
+        tableData = [{ name: currentDistrict, data: electionResults[currentDistrict] }];
+    } else if (currentProvince !== 'all') {
+        // Show all districts in selected province
+        tableData = districts
+            .filter(d => d.startsWith(currentProvince))
+            .map(d => ({ name: d, data: electionResults[d] }));
+    } else {
+        // Show all districts
+        tableData = districts.map(d => ({ name: d, data: electionResults[d] }));
+    }
     
     tbody.innerHTML = tableData.map(item => {
         const winner = item.data.partyResults[0];

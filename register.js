@@ -2,39 +2,78 @@ const { createApp } = Vue;
 
 // ข้อมูลจังหวัด อำเภอ และเขตเลือกตั้ง (ตัวอย่าง)
 const locationData = {
-    'กรุงเทพมหานคร': {
-        districts: {
-            'บางรัก': { subdistricts: ['สี่พระยา', 'มหาพฤฒาราม', 'สุริยวงศ์'], constituency: 'เขต 1' },
-            'ปทุมวัน': { subdistricts: ['ปทุมวัน', 'ลุมพินี', 'รองเมือง'], constituency: 'เขต 2' },
-            'ดุสิต': { subdistricts: ['ดุสิต', 'วชิรพยาบาล', 'สวนจิตรลดา'], constituency: 'เขต 3' },
-            'คลองเตย': { subdistricts: ['คลองเตย', 'คลองตัน', 'พระโขนง'], constituency: 'เขต 4' }
-        }
+  กรุงเทพมหานคร: {
+    districts: {
+      บางรัก: {
+        subdistricts: ["สี่พระยา", "มหาพฤฒาราม", "สุริยวงศ์"],
+        constituency: "เขต 1",
+      },
+      ปทุมวัน: {
+        subdistricts: ["ปทุมวัน", "ลุมพินี", "รองเมือง"],
+        constituency: "เขต 2",
+      },
+      ดุสิต: {
+        subdistricts: ["ดุสิต", "วชิรพยาบาล", "สวนจิตรลดา"],
+        constituency: "เขต 3",
+      },
+      คลองเตย: {
+        subdistricts: ["คลองเตย", "คลองตัน", "พระโขนง"],
+        constituency: "เขต 4",
+      },
     },
-    'เชียงใหม่': {
-        districts: {
-            'เมืองเชียงใหม่': { subdistricts: ['ศรีภูมิ', 'พระสิงห์', 'หายยา'], constituency: 'เขต 1' },
-            'หางดง': { subdistricts: ['หางดง', 'หนองแก๋ว', 'บ้านแหวน'], constituency: 'เขต 2' },
-            'สันกำแพง': { subdistricts: ['สันกำแพง', 'ทรายมูล', 'ร้องวัวแดง'], constituency: 'เขต 3' }
-        }
+  },
+  เชียงใหม่: {
+    districts: {
+      เมืองเชียงใหม่: {
+        subdistricts: ["ศรีภูมิ", "พระสิงห์", "หายยา"],
+        constituency: "เขต 1",
+      },
+      หางดง: {
+        subdistricts: ["หางดง", "หนองแก๋ว", "บ้านแหวน"],
+        constituency: "เขต 2",
+      },
+      สันกำแพง: {
+        subdistricts: ["สันกำแพง", "ทรายมูล", "ร้องวัวแดง"],
+        constituency: "เขต 3",
+      },
     },
-    'ขอนแก่น': {
-        districts: {
-            'เมืองขอนแก่น': { subdistricts: ['ในเมือง', 'บ้านค้อ', 'สาวะถี'], constituency: 'เขต 1' },
-            'บ้านไผ่': { subdistricts: ['บ้านไผ่', 'เมืองเพีย', 'หนองน้ำใส'], constituency: 'เขต 2' },
-            'น้ำพอง': { subdistricts: ['น้ำพอง', 'วังชัย', 'ท่ากระเสริม'], constituency: 'เขต 3' }
-        }
+  },
+  ขอนแก่น: {
+    districts: {
+      เมืองขอนแก่น: {
+        subdistricts: ["ในเมือง", "บ้านค้อ", "สาวะถี"],
+        constituency: "เขต 1",
+      },
+      บ้านไผ่: {
+        subdistricts: ["บ้านไผ่", "เมืองเพีย", "หนองน้ำใส"],
+        constituency: "เขต 2",
+      },
+      น้ำพอง: {
+        subdistricts: ["น้ำพอง", "วังชัย", "ท่ากระเสริม"],
+        constituency: "เขต 3",
+      },
     },
-    'ภูเก็ต': {
-        districts: {
-            'เมืองภูเก็ต': { subdistricts: ['ตลาดใหญ่', 'ตลาดเหนือ', 'เกาะแก้ว'], constituency: 'เขต 1' },
-            'กะทู้': { subdistricts: ['กะทู้', 'ป่าตอง', 'กมลา'], constituency: 'เขต 1' },
-            'ถลาง': { subdistricts: ['เทพกระษัตรี', 'ศรีสุนทร', 'เชิงทะเล'], constituency: 'เขต 1' }
-        }
-    }
+  },
+  ภูเก็ต: {
+    districts: {
+      เมืองภูเก็ต: {
+        subdistricts: ["ตลาดใหญ่", "ตลาดเหนือ", "เกาะแก้ว"],
+        constituency: "เขต 1",
+      },
+      กะทู้: {
+        subdistricts: ["กะทู้", "ป่าตอง", "กมลา"],
+        constituency: "เขต 1",
+      },
+      ถลาง: {
+        subdistricts: ["เทพกระษัตรี", "ศรีสุนทร", "เชิงทะเล"],
+        constituency: "เขต 1",
+      },
+    },
+  },
 };
 
 const RegisterPage = {
-    template: `
+  template: `
         <div class="register-container">
             <!-- Back to Dashboard Link -->
             <div class="back-link">
@@ -422,7 +461,7 @@ const RegisterPage = {
 
                 <div class="login-section">
                     <p>มีบัญชีอยู่แล้ว?</p>
-                    <a href="index.html" class="btn-link">เข้าสู่ระบบ</a>
+                    <a href="login.html" class="btn-link">เข้าสู่ระบบ</a>
                 </div>
             </div>
 
@@ -439,193 +478,214 @@ const RegisterPage = {
             </div>
         </div>
     `,
-    data() {
+  data() {
+    return {
+      currentStep: 1,
+      formData: {
+        citizenId: "",
+        firstName: "",
+        lastName: "",
+        address: "",
+        province: "",
+        district: "",
+        subdistrict: "",
+        constituency: "",
+        password: "",
+        confirmPassword: "",
+        acceptTerms: false,
+        rememberMe: false,
+      },
+      errors: {},
+      errorMessage: "",
+      successMessage: "",
+      showPassword: false,
+      showConfirmPassword: false,
+      isLoading: false,
+      locationData: locationData,
+    };
+  },
+  computed: {
+    provinces() {
+      return Object.keys(this.locationData);
+    },
+    districts() {
+      if (!this.formData.province) return [];
+      return Object.keys(this.locationData[this.formData.province].districts);
+    },
+    subdistricts() {
+      if (!this.formData.province || !this.formData.district) return [];
+      return this.locationData[this.formData.province].districts[
+        this.formData.district
+      ].subdistricts;
+    },
+    passwordStrength() {
+      const password = this.formData.password;
+      if (!password) return { width: "0%", text: "", color: "", class: "" };
+
+      let strength = 0;
+      if (password.length >= 8) strength++;
+      if (password.length >= 12) strength++;
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+      if (/\d/.test(password)) strength++;
+      if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+      if (strength <= 1) {
         return {
-            currentStep: 1,
-            formData: {
-                citizenId: '',
-                firstName: '',
-                lastName: '',
-                address: '',
-                province: '',
-                district: '',
-                subdistrict: '',
-                constituency: '',
-                password: '',
-                confirmPassword: '',
-                acceptTerms: false,
-                rememberMe: false
-            },
-            errors: {},
-            errorMessage: '',
-            successMessage: '',
-            showPassword: false,
-            showConfirmPassword: false,
-            isLoading: false,
-            locationData: locationData
-        }
+          width: "25%",
+          text: "อ่อนแอ",
+          color: "#EF4444",
+          class: "weak",
+        };
+      } else if (strength <= 3) {
+        return {
+          width: "50%",
+          text: "ปานกลาง",
+          color: "#F59E0B",
+          class: "medium",
+        };
+      } else if (strength <= 4) {
+        return { width: "75%", text: "ดี", color: "#10B981", class: "good" };
+      } else {
+        return {
+          width: "100%",
+          text: "แข็งแรงมาก",
+          color: "#059669",
+          class: "strong",
+        };
+      }
     },
-    computed: {
-        provinces() {
-            return Object.keys(this.locationData);
-        },
-        districts() {
-            if (!this.formData.province) return [];
-            return Object.keys(this.locationData[this.formData.province].districts);
-        },
-        subdistricts() {
-            if (!this.formData.province || !this.formData.district) return [];
-            return this.locationData[this.formData.province].districts[this.formData.district].subdistricts;
-        },
-        passwordStrength() {
-            const password = this.formData.password;
-            if (!password) return { width: '0%', text: '', color: '', class: '' };
+  },
+  methods: {
+    formatCitizenId(event) {
+      let value = event.target.value.replace(/[^0-9]/g, "");
+      if (value.length > 13) value = value.slice(0, 13);
 
-            let strength = 0;
-            if (password.length >= 8) strength++;
-            if (password.length >= 12) strength++;
-            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
-            if (/\d/.test(password)) strength++;
-            if (/[^a-zA-Z0-9]/.test(password)) strength++;
-
-            if (strength <= 1) {
-                return { width: '25%', text: 'อ่อนแอ', color: '#EF4444', class: 'weak' };
-            } else if (strength <= 3) {
-                return { width: '50%', text: 'ปานกลาง', color: '#F59E0B', class: 'medium' };
-            } else if (strength <= 4) {
-                return { width: '75%', text: 'ดี', color: '#10B981', class: 'good' };
-            } else {
-                return { width: '100%', text: 'แข็งแรงมาก', color: '#059669', class: 'strong' };
-            }
-        }
+      if (value.length > 0) {
+        let formatted = value[0];
+        if (value.length > 1) formatted += "-" + value.slice(1, 5);
+        if (value.length > 5) formatted += "-" + value.slice(5, 10);
+        if (value.length > 10) formatted += "-" + value.slice(10, 12);
+        if (value.length > 12) formatted += "-" + value.slice(12, 13);
+        this.formData.citizenId = formatted;
+      } else {
+        this.formData.citizenId = "";
+      }
     },
-    methods: {
-        formatCitizenId(event) {
-            let value = event.target.value.replace(/[^0-9]/g, '');
-            if (value.length > 13) value = value.slice(0, 13);
-            
-            if (value.length > 0) {
-                let formatted = value[0];
-                if (value.length > 1) formatted += '-' + value.slice(1, 5);
-                if (value.length > 5) formatted += '-' + value.slice(5, 10);
-                if (value.length > 10) formatted += '-' + value.slice(10, 12);
-                if (value.length > 12) formatted += '-' + value.slice(12, 13);
-                this.formData.citizenId = formatted;
-            } else {
-                this.formData.citizenId = '';
-            }
-        },
-        onProvinceChange() {
-            this.formData.district = '';
-            this.formData.subdistrict = '';
-            this.formData.constituency = '';
-        },
-        onDistrictChange() {
-            this.formData.subdistrict = '';
-            if (this.formData.province && this.formData.district) {
-                this.formData.constituency = this.locationData[this.formData.province].districts[this.formData.district].constituency;
-            } else {
-                this.formData.constituency = '';
-            }
-        },
-        validateStep(step) {
-            this.errors = {};
-            this.errorMessage = '';
-            let isValid = true;
+    onProvinceChange() {
+      this.formData.district = "";
+      this.formData.subdistrict = "";
+      this.formData.constituency = "";
+    },
+    onDistrictChange() {
+      this.formData.subdistrict = "";
+      if (this.formData.province && this.formData.district) {
+        this.formData.constituency =
+          this.locationData[this.formData.province].districts[
+            this.formData.district
+          ].constituency;
+      } else {
+        this.formData.constituency = "";
+      }
+    },
+    validateStep(step) {
+      this.errors = {};
+      this.errorMessage = "";
+      let isValid = true;
 
-            if (step === 1) {
-                // Validate Citizen ID
-                const cleanId = this.formData.citizenId.replace(/[^0-9]/g, '');
-                if (cleanId.length !== 13) {
-                    this.errors.citizenId = 'กรุณากรอกเลขบัตรประชาชน 13 หลัก';
-                    isValid = false;
-                }
-
-                if (!this.formData.firstName.trim()) {
-                    this.errors.firstName = 'กรุณากรอกชื่อ';
-                    isValid = false;
-                }
-
-                if (!this.formData.lastName.trim()) {
-                    this.errors.lastName = 'กรุณากรอกนามสกุล';
-                    isValid = false;
-                }
-            } else if (step === 2) {
-                if (!this.formData.address.trim()) {
-                    this.errors.address = 'กรุณากรอกที่อยู่';
-                    isValid = false;
-                }
-
-                if (!this.formData.province) {
-                    this.errors.province = 'กรุณาเลือกจังหวัด';
-                    isValid = false;
-                }
-
-                if (!this.formData.district) {
-                    this.errors.district = 'กรุณาเลือกอำเภอ/เขต';
-                    isValid = false;
-                }
-
-                if (!this.formData.subdistrict) {
-                    this.errors.subdistrict = 'กรุณาเลือกตำบล/แขวง';
-                    isValid = false;
-                }
-            } else if (step === 3) {
-                if (this.formData.password.length < 8) {
-                    this.errors.password = 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร';
-                    isValid = false;
-                }
-
-                if (this.formData.password !== this.formData.confirmPassword) {
-                    this.errors.confirmPassword = 'รหัสผ่านไม่ตรงกัน';
-                    isValid = false;
-                }
-
-                if (!this.formData.acceptTerms) {
-                    this.errorMessage = 'กรุณายอมรับข้อกำหนดและเงื่อนไขก่อนดำเนินการต่อ';
-                    isValid = false;
-                }
-            }
-
-            return isValid;
-        },
-        nextStep() {
-            if (this.validateStep(this.currentStep)) {
-                this.currentStep++;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        },
-        previousStep() {
-            this.currentStep--;
-            this.errorMessage = '';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        },
-        async handleSubmit() {
-            if (!this.validateStep(3)) {
-                return;
-            }
-
-            this.isLoading = true;
-            this.errorMessage = '';
-            this.successMessage = '';
-
-            // Simulate API call
-            setTimeout(() => {
-                this.isLoading = false;
-                this.successMessage = 'ลงทะเบียนสำเร็จ! กำลังพาคุณไปยังหน้าเข้าสู่ระบบ...';
-                
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000);
-            }, 2000);
+      if (step === 1) {
+        // Validate Citizen ID
+        const cleanId = this.formData.citizenId.replace(/[^0-9]/g, "");
+        if (cleanId.length !== 13) {
+          this.errors.citizenId = "กรุณากรอกเลขบัตรประชาชน 13 หลัก";
+          isValid = false;
         }
-    }
+
+        if (!this.formData.firstName.trim()) {
+          this.errors.firstName = "กรุณากรอกชื่อ";
+          isValid = false;
+        }
+
+        if (!this.formData.lastName.trim()) {
+          this.errors.lastName = "กรุณากรอกนามสกุล";
+          isValid = false;
+        }
+      } else if (step === 2) {
+        if (!this.formData.address.trim()) {
+          this.errors.address = "กรุณากรอกที่อยู่";
+          isValid = false;
+        }
+
+        if (!this.formData.province) {
+          this.errors.province = "กรุณาเลือกจังหวัด";
+          isValid = false;
+        }
+
+        if (!this.formData.district) {
+          this.errors.district = "กรุณาเลือกอำเภอ/เขต";
+          isValid = false;
+        }
+
+        if (!this.formData.subdistrict) {
+          this.errors.subdistrict = "กรุณาเลือกตำบล/แขวง";
+          isValid = false;
+        }
+      } else if (step === 3) {
+        if (this.formData.password.length < 8) {
+          this.errors.password = "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร";
+          isValid = false;
+        }
+
+        if (this.formData.password !== this.formData.confirmPassword) {
+          this.errors.confirmPassword = "รหัสผ่านไม่ตรงกัน";
+          isValid = false;
+        }
+
+        if (!this.formData.acceptTerms) {
+          this.errorMessage = "กรุณายอมรับข้อกำหนดและเงื่อนไขก่อนดำเนินการต่อ";
+          isValid = false;
+        }
+      }
+
+      return isValid;
+    },
+    nextStep() {
+      if (this.validateStep(this.currentStep)) {
+        this.currentStep++;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    },
+    previousStep() {
+      this.currentStep--;
+      this.errorMessage = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    async handleSubmit() {
+      if (!this.validateStep(3)) {
+        return;
+      }
+
+      this.isLoading = true;
+      this.errorMessage = "";
+      this.successMessage = "";
+
+      // Simulate API call
+      setTimeout(() => {
+        this.isLoading = false;
+        this.successMessage =
+          "ลงทะเบียนสำเร็จ! กำลังพาคุณไปยังหน้าเข้าสู่ระบบ...";
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+      }, 2000);
+    },
+  },
 };
 
 const app = createApp({
-    components: {
-        RegisterPage
-    }
+  components: {
+    RegisterPage,
+  },
 });
 
-app.mount('#app');
+app.mount("#app");
