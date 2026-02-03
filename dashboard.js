@@ -184,7 +184,8 @@ function updateAuthState() {
 // Logout function
 function logout() {
     sessionStorage.removeItem('isLoggedIn');
-    window.location.href = 'main.html';
+    isLoggedIn = false;
+    updateAuthState();
 }
 
 // Update dashboard with current district data
