@@ -1,256 +1,297 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>จัดการผู้สมัคร - แผงควบคุม</title>
-    <link rel="stylesheet" href="candidate-management-style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="candidate-management-style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="admin-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo-icon">
-                    <i class="fas fa-user-shield"></i>
-                </div>
-                <h2>แผงควบคุม</h2>
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo-icon">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <h2>แผงควบคุม</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-section">
+            <p class="nav-label">เมนูหลัก</p>
+            <ul>
+              <li>
+                <a href="party-management.html">
+                  <i class="fas fa-users"></i>
+                  <span>จัดการพรรคการเมือง</span>
+                </a>
+              </li>
+              <li class="active">
+                <a href="candidate-management.html">
+                  <i class="fas fa-user-tie"></i>
+                  <span>จัดการผู้สมัคร</span>
+                </a>
+              </li>
+              <li>
+                <a href="#voter-management">
+                  <i class="fas fa-person-booth"></i>
+                  <span>จัดการผู้มีสิทธิ์เลือกตั้ง</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="nav-section">
+            <p class="nav-label">บัญชีผู้ใช้</p>
+            <ul>
+              <li>
+                <a href="#settings">
+                  <i class="fas fa-cog"></i>
+                  <span>ตั้งค่า</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-info">
+            <img
+              src="https://ui-avatars.com/api/?name=สมชาย+ใจดี&background=4a5568&color=fff"
+              alt="User Avatar"
+              class="user-avatar"
+            />
+            <div class="user-details">
+              <p class="user-name">สมชาย ใจดี</p>
+              <p class="user-login">เข้าสู่ระบบล่าสุด: 10:45 น.</p>
             </div>
+          </div>
+        </div>
+      </aside>
 
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <p class="nav-label">เมนูหลัก</p>
-                    <ul>
-                        <li>
-                            <a href="party-management.html">
-                                <i class="fas fa-users"></i>
-                                <span>จัดการพรรคการเมือง</span>
-                            </a>
-                        </li>
-                        <li class="active">
-                            <a href="candidate-management.html">
-                                <i class="fas fa-user-tie"></i>
-                                <span>จัดการผู้สมัคร</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#voter-management">
-                                <i class="fas fa-person-booth"></i>
-                                <span>จัดการผู้มีสิทธิ์เลือกตั้ง</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#system-logs">
-                                <i class="fas fa-file-alt"></i>
-                                <span>บันทึกระบบ</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="content-header">
+          <div class="breadcrumb">
+            <a href="#dashboard">หน้าหลัก</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>จัดการผู้สมัคร</span>
+          </div>
 
-                <div class="nav-section">
-                    <p class="nav-label">บัญชีผู้ใช้</p>
-                    <ul>
-                        <li>
-                            <a href="#settings">
-                                <i class="fas fa-cog"></i>
-                                <span>ตั้งค่า</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
-            <div class="sidebar-footer">
-                <div class="user-info">
-                    <img src="https://ui-avatars.com/api/?name=สมชาย+ใจดี&background=4a5568&color=fff" alt="User Avatar" class="user-avatar">
-                    <div class="user-details">
-                        <p class="user-name">สมชาย ใจดี</p>
-                        <p class="user-login">เข้าสู่ระบบล่าสุด: 10:45 น.</p>
-                    </div>
-                </div>
+          <div class="header-actions">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                placeholder="ค้นหาผู้สมัคร..."
+                id="searchInput"
+              />
             </div>
-        </aside>
+            <button class="notification-btn">
+              <i class="fas fa-bell"></i>
+              <span class="badge">3</span>
+            </button>
+            <button class="btn-primary" id="addCandidateBtn">
+              <i class="fas fa-plus"></i>
+              เพิ่มผู้สมัครใหม่
+            </button>
+          </div>
+        </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="content-header">
-                <div class="breadcrumb">
-                    <a href="#dashboard">หน้าหลัก</a>
-                    <i class="fas fa-chevron-right"></i>
-                    <span>จัดการผู้สมัคร</span>
-                </div>
+        <!-- Page Title -->
+        <div class="page-title">
+          <h1>จัดการผู้สมัคร</h1>
+          <p class="subtitle">
+            จัดการข้อมูลผู้สมัครสมาชิกสภาผู้แทนราษฎร พ.ศ. 2569
+          </p>
+        </div>
 
-                <div class="header-actions">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="ค้นหาผู้สมัคร..." id="searchInput">
-                    </div>
-                    <button class="notification-btn">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">3</span>
-                    </button>
-                    <button class="btn-primary" id="addCandidateBtn">
-                        <i class="fas fa-plus"></i>
-                        เพิ่มผู้สมัครใหม่
-                    </button>
-                </div>
-            </header>
+        <!-- Filters -->
+        <div class="filters-container">
+          <div class="filter-group">
+            <label for="districtFilter">
+              <i class="fas fa-map-marker-alt"></i>
+              กรองตามเขต
+            </label>
+            <select id="districtFilter">
+              <option value="">ทุกเขต</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="partyFilter">
+              <i class="fas fa-flag"></i>
+              กรองตามพรรค
+            </label>
+            <select id="partyFilter">
+              <option value="">ทุกพรรค</option>
+            </select>
+          </div>
+          <button class="btn-reset" id="resetFilters">
+            <i class="fas fa-rotate-right"></i>
+            รีเซ็ตตัวกรอง
+          </button>
+        </div>
 
-            <!-- Page Title -->
-            <div class="page-title">
-                <h1>จัดการผู้สมัคร</h1>
-                <p class="subtitle">จัดการข้อมูลผู้สมัครสมาชิกสภาผู้แทนราษฎร พ.ศ. 2569</p>
-            </div>
+        <!-- Candidates Grid -->
+        <div class="candidates-grid" id="candidatesGrid">
+          <!-- Data will be populated by JavaScript -->
+        </div>
 
-            <!-- Filters -->
-            <div class="filters-container">
-                <div class="filter-group">
-                    <label for="districtFilter">
-                        <i class="fas fa-map-marker-alt"></i>
-                        กรองตามเขต
-                    </label>
-                    <select id="districtFilter">
-                        <option value="">ทุกเขต</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="partyFilter">
-                        <i class="fas fa-flag"></i>
-                        กรองตามพรรค
-                    </label>
-                    <select id="partyFilter">
-                        <option value="">ทุกพรรค</option>
-                    </select>
-                </div>
-                <button class="btn-reset" id="resetFilters">
-                    <i class="fas fa-rotate-right"></i>
-                    รีเซ็ตตัวกรอง
-                </button>
-            </div>
-
-            <!-- Candidates Grid -->
-            <div class="candidates-grid" id="candidatesGrid">
-                <!-- Data will be populated by JavaScript -->
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination">
-                <div class="pagination-info">
-                    <span>แสดง <span id="showingStart">1</span> ถึง <span id="showingEnd">12</span> จากทั้งหมด <span id="totalEntries">24</span> รายการ</span>
-                </div>
-                <div class="pagination-controls">
-                    <button class="page-btn" id="prevBtn">ก่อนหน้า</button>
-                    <button class="page-btn active" data-page="1">1</button>
-                    <button class="page-btn" data-page="2">2</button>
-                    <button class="page-btn" id="nextBtn">ถัดไป</button>
-                </div>
-            </div>
-        </main>
+        <!-- Pagination -->
+        <div class="pagination">
+          <div class="pagination-info">
+            <span
+              >แสดง <span id="showingStart">1</span> ถึง
+              <span id="showingEnd">12</span> จากทั้งหมด
+              <span id="totalEntries">24</span> รายการ</span
+            >
+          </div>
+          <div class="pagination-controls">
+            <button class="page-btn" id="prevBtn">ก่อนหน้า</button>
+            <button class="page-btn active" data-page="1">1</button>
+            <button class="page-btn" data-page="2">2</button>
+            <button class="page-btn" id="nextBtn">ถัดไป</button>
+          </div>
+        </div>
+      </main>
     </div>
 
     <!-- Add/Edit Candidate Modal -->
     <div class="modal" id="candidateModal">
-        <div class="modal-content modal-large">
-            <div class="modal-header">
-                <h2 id="modalTitle">เพิ่มผู้สมัครใหม่</h2>
-                <button class="close-btn" id="closeModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="candidateForm">
-                <div class="form-columns">
-                    <div class="form-left">
-                        <div class="form-group">
-                            <label for="candidatePhoto">รูปถ่ายผู้สมัคร</label>
-                            <div class="photo-upload">
-                                <div class="photo-preview" id="photoPreview">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <input type="file" id="candidatePhoto" accept="image/*" style="display: none;">
-                                <button type="button" class="btn-upload" id="uploadBtn">
-                                    <i class="fas fa-upload"></i>
-                                    อัพโหลดรูปภาพ
-                                </button>
-                                <p class="upload-hint">รองรับ JPG, PNG (ขนาดไม่เกิน 2MB)</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-right">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="candidateName">ชื่อ-นามสกุล <span class="required">*</span></label>
-                                <input type="text" id="candidateName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="candidateNumber">เบอร์ผู้สมัคร <span class="required">*</span></label>
-                                <input type="number" id="candidateNumber" min="1" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="candidateParty">พรรคการเมือง <span class="required">*</span></label>
-                                <select id="candidateParty" required>
-                                    <option value="">เลือกพรรค</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="candidateDistrict">เขตเลือกตั้ง <span class="required">*</span></label>
-                                <select id="candidateDistrict" required>
-                                    <option value="">เลือกเขต</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="candidateAge">อายุ</label>
-                            <input type="number" id="candidateAge" min="25" max="100">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="candidateEducation">การศึกษา</label>
-                            <input type="text" id="candidateEducation" placeholder="เช่น ปริญญาตรี นิติศาสตร์">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="candidateExperience">ประสบการณ์</label>
-                            <textarea id="candidateExperience" rows="3" placeholder="ระบุประสบการณ์การทำงาน..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="candidatePolicy">นโยบายหลัก <span class="required">*</span></label>
-                            <textarea id="candidatePolicy" rows="4" required placeholder="ระบุนโยบายหลักของผู้สมัคร..."></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-secondary" id="cancelBtn">ยกเลิก</button>
-                    <button type="submit" class="btn-primary">บันทึก</button>
-                </div>
-            </form>
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h2 id="modalTitle">เพิ่มผู้สมัครใหม่</h2>
+          <button class="close-btn" id="closeModal">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
+        <form id="candidateForm">
+          <div class="form-columns">
+            <div class="form-left">
+              <div class="form-group">
+                <label for="candidatePhoto">รูปถ่ายผู้สมัคร</label>
+                <div class="photo-upload">
+                  <div class="photo-preview" id="photoPreview">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <input
+                    type="file"
+                    id="candidatePhoto"
+                    accept="image/*"
+                    style="display: none"
+                  />
+                  <button type="button" class="btn-upload" id="uploadBtn">
+                    <i class="fas fa-upload"></i>
+                    อัพโหลดรูปภาพ
+                  </button>
+                  <p class="upload-hint">รองรับ JPG, PNG (ขนาดไม่เกิน 2MB)</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-right">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="candidateName"
+                    >ชื่อ-นามสกุล <span class="required">*</span></label
+                  >
+                  <input type="text" id="candidateName" required />
+                </div>
+                <div class="form-group">
+                  <label for="candidateNumber"
+                    >เบอร์ผู้สมัคร <span class="required">*</span></label
+                  >
+                  <input type="number" id="candidateNumber" min="1" required />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="candidateParty"
+                    >พรรคการเมือง <span class="required">*</span></label
+                  >
+                  <select id="candidateParty" required>
+                    <option value="">เลือกพรรค</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="candidateDistrict"
+                    >เขตเลือกตั้ง <span class="required">*</span></label
+                  >
+                  <select id="candidateDistrict" required>
+                    <option value="">เลือกเขต</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="candidateAge">อายุ</label>
+                <input type="number" id="candidateAge" min="25" max="100" />
+              </div>
+
+              <div class="form-group">
+                <label for="candidateEducation">การศึกษา</label>
+                <input
+                  type="text"
+                  id="candidateEducation"
+                  placeholder="เช่น ปริญญาตรี นิติศาสตร์"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="candidateExperience">ประสบการณ์</label>
+                <textarea
+                  id="candidateExperience"
+                  rows="3"
+                  placeholder="ระบุประสบการณ์การทำงาน..."
+                ></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="candidatePolicy"
+                  >นโยบายหลัก <span class="required">*</span></label
+                >
+                <textarea
+                  id="candidatePolicy"
+                  rows="4"
+                  required
+                  placeholder="ระบุนโยบายหลักของผู้สมัคร..."
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" id="cancelBtn">
+              ยกเลิก
+            </button>
+            <button type="submit" class="btn-primary">บันทึก</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <!-- View Candidate Modal -->
     <div class="modal" id="viewModal">
-        <div class="modal-content modal-large">
-            <div class="modal-header">
-                <h2>ข้อมูลผู้สมัคร</h2>
-                <button class="close-btn" id="closeViewModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="view-content" id="viewContent">
-                <!-- Populated by JavaScript -->
-            </div>
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h2>ข้อมูลผู้สมัคร</h2>
+          <button class="close-btn" id="closeViewModal">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
+        <div class="view-content" id="viewContent">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
     </div>
 
     <script src="candidate-management.js"></script>
-</body>
+  </body>
 </html>

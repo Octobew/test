@@ -35,8 +35,15 @@
                   <span>user@example.com</span>
                 </div>
               </div>
-    
-              <a href="#" class="dropdown-item logout" onclick="logout(); return false;">
+
+              <a
+                href="#"
+                class="dropdown-item logout"
+                onclick="
+                  logout();
+                  return false;
+                "
+              >
                 <i class="fas fa-sign-out-alt"></i>
                 ออกจากระบบ
               </a>
@@ -239,5 +246,17 @@
     </div>
 
     <script src="voting.js"></script>
+    <script>
+      // Call getMyVote after page loads
+      window.addEventListener("load", async () => {
+        console.log("🔍 กำลังตรวจสอบข้อมูลการลงคะแนน...");
+        const result = await getMyVote();
+        if (result.success) {
+          console.log("✅ ผู้ใช้ได้ลงคะแนนไปแล้ว:", result.data);
+        } else {
+          console.log("ℹ️", result.message);
+        }
+      });
+    </script>
   </body>
 </html>
